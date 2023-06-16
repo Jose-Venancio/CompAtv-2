@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+public class AnalisadorLexico {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Digite a cadeia a ser analisada: ");
+        String input = scanner.nextLine();
+
+        if (validaCadeia(input)) {
+            System.out.println("Cadeia válida!");
+        } else {
+            System.out.println("Cadeia inválida!");
+        }
+    }
+
+    private static boolean validaCadeia(String input) {
+        // Verifica se a cadeia contém apenas caracteres permitidos
+        if (!input.matches("[a-zA-Z0-9\\s]+")) {
+            return false;
+        }
+        
+        // Verifica as regras específicas para a sequência de palavras válidas
+        String[] palavras = input.split("\\s+");
+        for (String palavra : palavras) {
+            if (!validaPalavra(palavra)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean validaPalavra(String palavra) {
+        // Verifica se a palavra começa com uma consoante válida
+        if (!palavra.matches("[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z].*")) {
+            return false;
+        }
+
+        // Verifica se a palavra alterna entre consoantes e vogais
+        if (!palavra.matches(".*[aeiouAEIOU].*[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z].*")) {
+            return false;
+        }
+
+         // Verifica se a palavra é reservada pelo sistema
+         if (palavra.startsWith("z") || palavra.startsWith("x")) {
+            System.out.println("Palavra reservada!");
+            return false;
+        }
+
+        // Verifica se a palavra contém apenas caracteres permitidos
+        if (!palavra.matches("[a-zA-Z0-9]*")) {
+            return false;
+        }
+
+        // Verifica se a palavra termina com um algarismo numérico
+        if (!palavra.matches(".*[0-9]")) {
+            return false;
+        }
+
+        return true;
+    }
+}
